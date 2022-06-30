@@ -1,0 +1,39 @@
+.mainpage-container {
+    width: 100vw;
+    height: 100vh;
+    user-select: none;
+}
+
+.flex-container {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+}
+
+.about-container {
+    background-color: aqua;
+    order: 1;
+    width: 20%;
+    height: 50%;
+}
+
+.settings-container {
+    background-color: blue;
+    order: 2;
+    width: 20%;
+    height: 50%;
+}
+
+.builder-container {
+    background-color: aquamarine;
+    order: 3;
+    width: 80%;
+    height: 60%;
+}
+
+.selector-container {
+    background-color:blueviolet;
+    order: 4;
+    width: 80%;
+    height: 40%;
+}
