@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/AdminLoginComponent.css';
+import Cookies from "universal-cookie";
 
 type loginResult = {
     success: boolean,
@@ -26,13 +27,44 @@ class AdminLoginComponent extends React.Component<IAdminProps, IAdminState> {
         }
     }
 
-    /* Send login data to the backend and update state */
     handleLogin = () => {
-        this.postLoginInfo()
-    }
+        // track validity of details
+        let validUsername = true;
+        let validPassword = false;
+        // remove whitespace
+        this.setState({username: this.state.username.trim()});
+        this.setState({password: this.state.password.trim()});
 
-    postLoginInfo = async () => {
-        /*TODO: Post the hash to the backend */
+        // validate username
+        // check if username has numbers or capitals
+        if (this.state.username.match(/[0-9][A-Z]/)) {
+            validUsername = false;
+            this.setState({loginResult: {success: false, value: "Username cannot contain numbers or capitals"}});
+        }
+        // check for length
+        if (this.state.username.length < 5) {
+            validUsername = false;
+            this.setState({loginResult: {success: false, value: "Username must be more than 5 characters"}});
+        }
+
+        // validate password
+        // check password length
+        if (this.state.password.length < 7) {
+            validPassword = false;
+            this.setState({loginResult: {success: false, value: "Password must be more than 7 characters"}});
+        }
+        // must have one capital, lowercase, special
+        if (this.state.password.match(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/)) {
+            validPassword = false;
+            this.setState({loginResult: {success: false, value: "Password does not meet the requirements"}});
+        }
+
+        if (validUsername && validPassword) {
+            this.setState({loginResult: {success: true, value: "Login Successful"}});
+        }
+
+        const cookies = new Cookies();
+        const sessionID = cookies.getAll()["session-cookie"];
     }
 
 

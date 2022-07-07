@@ -2,6 +2,7 @@ import React from 'react';
 import Cookies from "universal-cookie";
 
 import MainPageComponent from './components/MainPageComponent';
+import AdminLoginComponent from './components/AdminLoginComponent';
 
 const handleSession = (setSessionID: React.Dispatch<React.SetStateAction<number>>) => {
     const cookies = new Cookies();
@@ -30,7 +31,7 @@ function App() {
 
     return (
         <div className="App">
-            <MainPageComponent />
+            <AdminLoginComponent />
         </div>
     );
 }
