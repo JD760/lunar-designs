@@ -1,0 +1,16 @@
+{
+    "items": {
+        "1": {
+            "id": 1,
+            "name": "frosted onyx",
+            "description": "",
+            "img": "img/frosted_onyx.jpg"
+        },
+        "2": {
+            "id": 2,
+            "name": "frosted agate",
+            "description": "",
+            "img": "img/frosted_agate.jpg"
+        }
+    }
+}
