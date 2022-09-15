@@ -4,13 +4,19 @@
             "id": 1,
             "name": "frosted onyx",
             "description": "",
-            "img": "img/frosted_onyx.jpg"
+            "img": "img/frosted-onyx.jpg"
         },
         "2": {
             "id": 2,
             "name": "frosted agate",
             "description": "",
-            "img": "img/frosted_agate.jpg"
+            "img": "img/frosted-agate-blue.jpg"
+        },
+        "": {
+            "id": 3,
+            "name": "frosted howlite",
+            "description": "",
+            "img": "img/frosted-howlite.jpg"
         }
     }
 }

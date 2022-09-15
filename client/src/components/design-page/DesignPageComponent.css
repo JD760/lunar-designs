@@ -2,35 +2,29 @@
     width: 100vw;
     height: 100vh;
     user-select: none;
+    background-color: #ffcf54;
 }
 
 .about-container {
-    background-color: aqua;
-    order: 1;
-    width: calc(20%);
-    height: calc(50%);
+    order: 2;
+    width: 20%;
+    height: 50%;
 }
 
 .settings-container {
-    background-color: blue;
-    order: 2;
-    width: calc(20% - 1px);
-    height: calc(50% - 1px);
-    border-top: 1px solid black;
-    border-right: 1px solid black;
+    order: 1;
+    width: 20%;
+    height: 50%;
 }
 
 .builder-container {
-    background-color: cornflowerblue;
     order: 3;
-    width: calc(80% - 1px);
-    height: calc(60% - 2px);
-    border-bottom: 2px solid black;
-    border-left: 1px solid black;
+    width: 80%;
+    height: 40%;
 }
 
 .selector-container {
     order: 4;
     width: 80%;
-    height: 40%;
+    height: 60%;
 }

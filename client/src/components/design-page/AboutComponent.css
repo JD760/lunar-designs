@@ -1,0 +1,15 @@
+.about {
+    height: 95%;
+    background-color: #757373;
+}
+
+.about-text {
+    font-size: small;
+    text-align: center;
+}
+
+.info-text {
+    font-size: smaller;
+    padding: 25px;
+}
+

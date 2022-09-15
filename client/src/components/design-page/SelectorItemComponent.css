@@ -1,0 +1,32 @@
+/* Adds a transition animation reducing opacity */
+.overlay-image {
+    opacity: 1;
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: 0.5s ease;
+    backface-visibility: hidden;
+}
+/* Describes the content shown when the image is hovered over */
+.overlay {
+    transition: 0.5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+}
+/* Reduce the opacity of the image */
+.selector-item:hover .overlay-image {
+    opacity: 0.3;
+}
+/* Make the overlay visible */
+.selector-item:hover .overlay {
+    opacity: 1;
+}
+/* Use a small font to fit more content comfortably in the overlay */
+.overlay-description {
+    font-size: smaller;
+}

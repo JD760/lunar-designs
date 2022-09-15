@@ -17,3 +17,7 @@ code {
     flex-flow: column wrap;
     justify-content: flex-start;
 }
+
+.center {
+    text-align: center;
+}

@@ -1,67 +1,74 @@
+/* Flex containers are used to hold elements that have
+varying size and is more modern than grid or table */
 .flex-container {
     display: flex;
     flex-flow: column wrap;
     justify-content: flex-start;
 }
-
+/* Defines the dimensions of the selector component */
 .selector {
-    height: 40vh;
+    height: 60vh;
     width: 80vw;
     background-color: aqua;
 }
-
+/* The search class contains the search bar and filter button */
 .selector-search {
     width: 80vw;
     height: 5vh;
-    background-color: aquamarine;
     display: inline-flex;
 }
-
+/* Represents the <ul> element holding the bead items */
+/* Makes use of a flex container to have a variable number of items per row  */
 .selector-items {
     width: 80vw;
-    height: 35vh;
-    background-color: blanchedalmond;
-    display: grid;
-    grid-auto-columns: 96px;
-    grid-template-rows: auto;
+    height: 55vh;
+    background-color: #383636;
+    overflow: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4px;
+    justify-content: center;
 }
 
+/* Represents each bead item in the selector component */
 .selector-item {
     width: 96px;
     height: 96px;
-    grid-row: 1;
+    position: relative;
 }
-
-li {
+/* Removes bullet points and margin from the list items */
+li.selector-item {
     list-style: none;
     margin: 0px;
     border: 1px solid black;
 }
-
-ul {
+/* Removes styling from the list */
+.selector-list {
     list-style-type: none;
     padding: 0px;
     margin: 0px;
 }
-
+/* Images are desired to completely fill the bead item they are a part of */
 .item-img {
     margin: 0px;
     padding: 0px;
 }
-
+/* Arranges the searchbar to the left of the button and leaves 5% page width for it */
 #selector-searchbar {
     width: 95%;
     height: 100%;
     border: 0px;
     outline: none;
 }
-
+/* The filter button is positioned to the right of the searchbar */
 #selector-filter {
     width: 5%;
     height: 100%;
     border: 0px;
 }
 
+/* Container for the loading bar that is centered in the selector component */
 .selector-loading {
     height: 40vh;
     width: 80vw;
@@ -69,7 +76,8 @@ ul {
     padding-top: calc(20vh - 48px);
     margin-top: 2vh;
 }
-
+/* Loading icon is purely CSS with no JavaScript controlling it */
+/* sets up the two spinning sections and a 2s animation */
 .loading-icon {
     margin: auto;
     background-color: aqua;
@@ -83,6 +91,7 @@ ul {
     animation: spin 2s linear infinite;
 }
 
+/* tells the browser to rotate the icon through 360 degrees over 2 seconds */
 @keyframes spin {
     0% {transform: rotate(0deg);}
     100% {transform: rotate(360deg);}
