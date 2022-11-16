@@ -4,7 +4,7 @@ import AboutComponent from "./AboutComponent";
 import SettingsComponent from "./SettingsComponent";
 import BeadSelectorComponent from "./BeadSelectorComponent";
 import BuilderComponent from "./BuilderComponent";
-import "./DesignPageComponent.css"
+import "./style/DesignPageComponent.css"
 
 
 

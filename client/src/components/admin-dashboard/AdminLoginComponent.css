@@ -1,4 +1,4 @@
-.form-container {
+.login-form-container {
     position: absolute;
     left: 50%;
     top: 50%;
@@ -11,4 +11,12 @@
 
 .admin-login-form {
     text-align: center;
+}
+
+.success {
+    color: green;
+}
+
+.failure {
+    color: red;
 }

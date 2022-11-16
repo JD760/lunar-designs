@@ -1,6 +1,6 @@
 // import other components and react functions for state management
 import { useEffect, useState } from 'react';
-import './BeadSelectorComponent.css';
+import './style/BeadSelectorComponent.css';
 import SelectorItemComponent from './SelectorItemComponent';
 
 // only populated if properties are passed into the beadSelector
@@ -11,9 +11,10 @@ type BeadSelectorProps = {}
 function BeadSelectorComponent (props: BeadSelectorProps) {
     // create state objects, used to persist data as the page is changed and reloaded
     const [selectorIsLoading, setSelectorIsLoading] = useState(true);
-    const [data, setData] = useState<any>(null);
     const [dataFetched, setDataFetched] = useState(false);
     const [elementsCreated, setElementsCreated] = useState(false);
+
+    const [data, setData] = useState<any>(null);
     const [itemElements, setItemElements] = useState<JSX.Element[]>([]);
 
     /* Fetch stock data from the backend - runs only once similarly to componentDidMount */
@@ -22,10 +23,10 @@ function BeadSelectorComponent (props: BeadSelectorProps) {
         fetch("http://localhost:3001/api/stockinfo", {method: "get"})
         .then((response) => {
             // throw an error if the server is down or unresponsive
-            if (!response.ok) {throw new Error(`HTTP Error: $(response.status)`)}
+            if (!response.ok) {throw new Error("HTTP Error: " + response.status.toString())}
             return response.json();
         })
-        // update the componennt state with the JSON returned
+        // update the component state with the JSON returned
         .then((resData) => {
             let data: any = Object.values(resData.items);
             setData(data);
@@ -46,7 +47,6 @@ function BeadSelectorComponent (props: BeadSelectorProps) {
         if (!elementsCreated && dataFetched) {
             // create an array to store generated HTML in
             let itemElements: JSX.Element[] = []
-
             // for each bead item returned from the backend
             for (let i = 0; i < data.length; i++) {
                 let item: any = Object.values(data[i]);

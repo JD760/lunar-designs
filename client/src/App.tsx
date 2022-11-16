@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Cookies from "universal-cookie";
+import { Routes, Route } from "react-router-dom";
 
 import DesignPageComponent from './components/design-page/DesignPageComponent';
+import AdminLoginComponent from './components/admin-dashboard/AdminLoginComponent';
+import PageNotFoundComponent from './components/PageNotFoundComponent';
+import AdminDashboardComponent from './components/admin-dashboard/AdminDashboardComponent';
 
 const handleSession = (setSessionID: React.Dispatch<React.SetStateAction<number>>) => {
     const cookies = new Cookies();
@@ -22,15 +26,24 @@ const handleSession = (setSessionID: React.Dispatch<React.SetStateAction<number>
 }
 
 function App() {
-    const [sessionID, setSessionID] = React.useState(0);
+    const [sessionID, setSessionID] = useState(0);
+    const [loggedIn, setLoggedIn] = useState(false)
 
     // fetch the session cookie or create a new cookie if it does not exist yet
-    React.useEffect(() => handleSession(setSessionID), [sessionID]);
-
+    useEffect(() => handleSession(setSessionID), [sessionID]);
+    useEffect(() => console.log(loggedIn));
 
     return (
         <div className="App">
-            <DesignPageComponent />
+            <Routes>
+                <Route path="/" element={<DesignPageComponent/>}/>
+                <Route
+                    path="/admin"
+                    element={loggedIn ? <AdminDashboardComponent /> : <AdminLoginComponent setLoggedIn={setLoggedIn} />}
+                />
+                {/* must be last in the list of routes */}
+                <Route path="*" element={<PageNotFoundComponent />}/>
+            </Routes>
         </div>
     );
 }

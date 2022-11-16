@@ -1,4 +1,4 @@
-import "./BuilderComponent.css";
+import "./style/BuilderComponent.css";
 
 interface BuilderComponentProps {
     numBeads: number

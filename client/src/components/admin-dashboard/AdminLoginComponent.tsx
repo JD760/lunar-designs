@@ -1,104 +1,74 @@
-import React from 'react';
-import '../styles/AdminLoginComponent.css';
-import Cookies from "universal-cookie";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { useState } from "react";
+import "./AdminLoginComponent.css";
 
 type loginResult = {
     success: boolean,
-    value: string
+    status: string,
+    token: string
 }
 
-/* Only populated if props are passed into this component */
-interface IAdminProps {}
-
-/* Type definitions for each state value */
-interface IAdminState {
-    username: string,
-    password: string,
-    loginResult: loginResult
+// populate with any props passed to the component
+interface AdminLoginProps {
+    setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-class AdminLoginComponent extends React.Component<IAdminProps, IAdminState> {
-    constructor(props: IAdminProps) {
-        super(props);
-        this.state = {
-            username: "",
-            password: "",
-            loginResult: {value: "", success: true}
-        }
+// export the function as a module that can be included in other files
+export default function AdminLoginComponent (props: AdminLoginProps) {
+    const [username, setUsername] = useState<string>("test");
+    const [password, setPassword] = useState<string>("test2");
+    const [loginResult, setLoginResult] = useState<loginResult>({success: false, status: "", token: ""});
+    const [loginAttempts, setLoginAttempts] = useState<number>(0);
+
+    const handleLoginAttempt = () => {
+        let loginBody = JSON.stringify({username: username, password: password});
+
+        fetch("http://localhost:3001/api/adminlogin", {
+            method: "POST", 
+            body: loginBody, 
+            headers: {"Content-Type": "application/json"}
+        })
+        .then((response) => {
+            // if a HTTP error occurs, set the loginResult such that the login has failed
+            if (!response.ok) {
+                setLoginResult({success: false, status: response.status.toString(), token: ""});
+                console.log(response.status.toString());
+            }
+            else {
+                console.log(response.json());
+            }
+        })
     }
 
-    handleLogin = () => {
-        // track validity of details
-        let validUsername = true;
-        let validPassword = false;
-        // remove whitespace
-        this.setState({username: this.state.username.trim()});
-        this.setState({password: this.state.password.trim()});
+    return (
+        <div className="login-form-container">
+            <div className="admin-login-form">
+                <p><u>Please enter the admin login details:</u></p>
+                <input
+                    type="text"
+                    placeholder="Username"
+                    /* Update the username when the input field value changes */
+                    onChange={(e) => setUsername(e.currentTarget.value)}
+                /> <br/><br/>
+                <input
+                    type="password"
+                    placeholder="Password"
+                    /* Update the password when the value of the input field changes */
+                    onChange={(e) => setPassword(e.currentTarget.value)}
+                /> <br/><br/>
 
-        // validate username
-        // check if username has numbers or capitals
-        if (this.state.username.match(/[0-9][A-Z]/)) {
-            validUsername = false;
-            this.setState({loginResult: {success: false, value: "Username cannot contain numbers or capitals"}});
-        }
-        // check for length
-        if (this.state.username.length < 5) {
-            validUsername = false;
-            this.setState({loginResult: {success: false, value: "Username must be more than 5 characters"}});
-        }
+                {/* Call the login handling function when the user submits their details */}
+                <button onClick={handleLoginAttempt}>Login</button>
 
-        // validate password
-        // check password length
-        if (this.state.password.length < 7) {
-            validPassword = false;
-            this.setState({loginResult: {success: false, value: "Password must be more than 7 characters"}});
-        }
-        // must have one capital, lowercase, special
-        if (this.state.password.match(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)/)) {
-            validPassword = false;
-            this.setState({loginResult: {success: false, value: "Password does not meet the requirements"}});
-        }
-
-        if (validUsername && validPassword) {
-            this.setState({loginResult: {success: true, value: "Login Successful"}});
-        }
-
-        const cookies = new Cookies();
-        const sessionID = cookies.getAll()["session-cookie"];
-    }
-
-
-    render() {
-        return (
-            <div className="form-container">
-                <div className="admin-login-form">
-                    <p><u>Please enter the admin login details:</u></p>
-                    <input
-                        type="text"
-                        placeholder="Username"
-                        /* Update the username when the input field value changes */
-                        onChange={(e) => this.setState({username: e.currentTarget.value})}
-                    /> <br/><br/>
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        /* Update the password when the value of the input field changes */
-                        onChange={(e) => this.setState({password: e.currentTarget.value})}
-                    /> <br/><br/>
-
-                    {/* Call the login handling function when the user submits their details */}
-                    <button onClick={this.handleLogin}>Login</button>
-
-                    {/* Display the result of the login and colour the text based on success */}
-                    <p 
-                        className="login-result"
-                        style={(this.state.loginResult.success) ? {color: 'green'}: {color: 'red'}}>
-                    {this.state.loginResult.value}
-                    </p>
-                </div>
+                {/* Display the result of the login and colour the text based on success */}
+                {/* Use a ternary expression (case) ? ifTrue : ifFalse */}
+                {loginResult.success ?
+                    <p className="success">Login Success!</p> 
+                    :
+                    /* Only show the login failure message if the user has tried to log in */
+                    (loginAttempts > 0) ? <p className="failure">Login Failure</p> : <p></p>
+                }
             </div>
-        )
-    }
+        </div>
+    )
 }
-
-export default AdminLoginComponent;

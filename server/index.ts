@@ -2,8 +2,9 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import items from "./items.json";
-
+import bodyParser from "body-parser";
+import apiRouter from "./api";
+import sqlite3 from "sqlite3";
 // dotenv allows environment variables to be set in a file
 // this means secrets such as API keys can be hidden by excluding the 
 // file from uploads
@@ -14,13 +15,14 @@ const app = express();
 // bypasses CORS restrictions during development
 app.use(cors());
 
+// small library for extracting the contents of HTTP requests
+app.use(express.json());
+
 // use the public folder as a route - allows images and static data to be accessed
 app.use(express.static("public"));
 
-// the stockinfo route sends a JSON representation of the items in stock
-app.get("/api/stockinfo", (req, res) => {
-    res.json(items);
-});
+// set up a route for the API to keep the main file tidy
+app.use("/api", apiRouter);
 
 // the server is accessed at localhost:PORT/
 app.listen(PORT, () => {

@@ -1,5 +1,5 @@
 // import the CSS rules for styling the component contents
-import "./AboutComponent.css";
+import "./style/AboutComponent.css";
 
 
 // about component is purely informational so has no props
@@ -20,7 +20,7 @@ function AboutComponent () {
             </p>
 
             <p className="info-text center">
-                Lunar Designs - 2022
+                &copy; Lunar Designs - 2022
             </p>
         </div>
     )

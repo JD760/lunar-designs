@@ -1,5 +1,5 @@
 // import CSS for styling the bead items
-import "./SelectorItemComponent.css";
+import "./style/SelectorItemComponent.css";
 
 // these fields are retrieved from the backend and passed into this component
 interface SelectorItemProps {
