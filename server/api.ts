@@ -4,7 +4,8 @@ import {MongoClient} from "mongodb";
 
 type loginRequest = {
     username: string,
-    password: string
+    password: string,
+    session: number
 }
 
 type loginResponse = {
@@ -30,7 +31,8 @@ apiRouter.post("/adminlogin", (req, res) => {
     let isValid = true
     let loginRequest: loginRequest = {
         username: req.body.username,
-        password: req.body.password
+        password: req.body.password,
+        session: req.body.session
     }
 
     let loginResponse: loginResponse = {
@@ -58,7 +60,7 @@ apiRouter.post("/adminlogin", (req, res) => {
         // runs only if the username and password combination is valid 
         if (loginRequest.password == password) {
             // generate a token and add it to the session tokens table
-            loginResponse.token = "";
+            loginResponse.token = "12";
             loginResponse.status = "Login Success!";
         }
         // password is incorrect
@@ -67,6 +69,7 @@ apiRouter.post("/adminlogin", (req, res) => {
         }
 
         // return a response to the user
+        console.log(`Login Attempt: ${loginRequest.session}`)
         res.send(loginResponse);
     }
 });
@@ -77,6 +80,7 @@ apiRouter.get("/stockdb", (req, res) => {
     const db = client.db("Lunar-Designs");
     const collection = db.collection("stock")
     
+    client.close();
     res.send("Test");
 })
 export default apiRouter;

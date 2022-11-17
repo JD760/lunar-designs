@@ -26,7 +26,7 @@ const handleSession = (setSessionID: React.Dispatch<React.SetStateAction<number>
 }
 
 function App() {
-    const [sessionID, setSessionID] = useState(0);
+    const [sessionID, setSessionID] = useState<number>(0);
     const [loggedIn, setLoggedIn] = useState(false)
 
     // fetch the session cookie or create a new cookie if it does not exist yet
@@ -39,7 +39,7 @@ function App() {
                 <Route path="/" element={<DesignPageComponent/>}/>
                 <Route
                     path="/admin"
-                    element={loggedIn ? <AdminDashboardComponent /> : <AdminLoginComponent setLoggedIn={setLoggedIn} />}
+                    element={loggedIn ? <AdminDashboardComponent /> : <AdminLoginComponent setLoggedIn={setLoggedIn} sessionID={sessionID}/>}
                 />
                 {/* must be last in the list of routes */}
                 <Route path="*" element={<PageNotFoundComponent />}/>

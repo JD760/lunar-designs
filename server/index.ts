@@ -4,7 +4,6 @@ import dotenv from "dotenv";
 import cors from "cors";
 import bodyParser from "body-parser";
 import apiRouter from "./api";
-import sqlite3 from "sqlite3";
 // dotenv allows environment variables to be set in a file
 // this means secrets such as API keys can be hidden by excluding the 
 // file from uploads
