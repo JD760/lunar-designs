@@ -28,7 +28,7 @@ export default function AdminLoginComponent (props: AdminLoginProps) {
         if (loginResult.success) {
             props.setLoggedIn(true);
         }
-    }, [loginResult]);
+    }, [loginResult, props]);
 
     const handleLoginAttempt = () => {
         // the user may only attempt to log in 3 times to hinder brute force attacks

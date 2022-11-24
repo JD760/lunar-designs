@@ -1,0 +1,36 @@
+.dashboard-container {
+    width: 100vw;
+    height: 100vh;
+}
+
+.dashboard-navbar {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: 1;
+    height: 6vh;
+    width: 100vw;
+    background-color: beige;
+}
+
+.dashboard-page {
+    height: 94vh;
+    width: 100vw;
+    background-color: antiquewhite;
+}
+
+.nav-item {
+    grid-row: 1;
+    text-align: center;
+}
+
+.orders {
+    grid-column: 1;
+}
+
+.stats {
+    grid-column: 2;
+}
+
+.users {
+    grid-column: 3;
+}
