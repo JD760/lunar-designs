@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 import "./AdminLoginComponent.css";
 
@@ -18,47 +16,43 @@ interface AdminLoginProps {
 
 // export the function as a module that can be included in other files
 export default function AdminLoginComponent (props: AdminLoginProps) {
-    const [username, setUsername] = useState<string>("test");
-    const [password, setPassword] = useState<string>("test2");
+    const [username, setUsername] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
     const [loginResult, setLoginResult] = useState<loginResult>({success: false, status: "", token: ""});
-    const [loginAttempts, setLoginAttempts] = useState<number>(0);
-    const navigate = useNavigate();
+    const [loginDataFetched, setLoginDataFetched] = useState<boolean>(false);
 
+    // runs each time the state changes
     useEffect(() => {
-        if (loginResult.success) {
+        if (loginDataFetched && loginResult.success) {
+            // create a cookie to store the token
+            const cookies = new Cookies();
+            cookies.set("token-cookie", loginResult.token, 
+                {path: "/", sameSite: "lax"}
+            );
             props.setLoggedIn(true);
         }
-    }, [loginResult, props]);
+        // do nothing if the login is not successful
+    }, [loginResult, loginDataFetched, props]);
 
-    const handleLoginAttempt = () => {
-        // the user may only attempt to log in 3 times to hinder brute force attacks
-        if (loginAttempts >= 3) {
-            setLoginResult({success: false, status: "Too Many Attempts", token: ""});
-        }
-        setLoginAttempts(loginAttempts + 1);
-
-        // JSON provides a consistent format to exchange data between the frontend and backend
-        let loginBody = JSON.stringify({username: username, password: password, session: props.sessionID});
-
-        // use the fetch API to send a login request to the backend
-        fetch("http://localhost:3001/api/adminlogin", {
-            method: "POST", 
-            body: loginBody, 
-            headers: {"Content-Type": "application/json"},
-        })
-        .then((response) => {
-            // if a HTTP error occurs, set the loginResult such that the login has failed
-            if (!response.ok) {
-                setLoginResult({success: false, status: response.status.toString(), token: ""});
-                console.log(response.status);
+    const handleLoginAttempt = async () => {
+        // create the JSON data to send to the backend for authentication
+        const loginBody = JSON.stringify({username: username, password: password, session: props.sessionID});
+        // make a HTTP POST request to the backend
+        await fetch("http://localhost:3001/api/adminlogin", 
+        {method: "POST", headers: {"Content-Type": "application/json"}, body: loginBody})
+        // wait for the promise to resolve and convert the response to JSON
+        .then((response) => response.json())
+        // wait for JSON conversion and use the JSON data to populate the login result fields
+        .then((data) => {
+            if (data.status === "Login Success!") {
+                setLoginResult({success: true, status: data.status, token: data.token})
+            } else {
+                setLoginResult({success: false, status: data.status, token: data.token})
             }
-            else {
-                response.json().then(data => (setLoginResult({success: true, status: data.status, token: data.token})))
-                .finally(() => console.log(loginResult));
-            }
-        })
+            // allows the check to redirect the user to be run
+            setLoginDataFetched(true);
+        });
     }
-
     return (
         <div className="login-form-container">
             <div className="admin-login-form">
@@ -84,8 +78,7 @@ export default function AdminLoginComponent (props: AdminLoginProps) {
                 {loginResult.success ?
                     <p className="success">{loginResult.status}</p> 
                     :
-                    /* Only show the login failure message if the user has tried to log in */
-                    (loginAttempts > 0) ? <p className="failure">{loginResult.status}</p> : <p></p>
+                    <p className="failure">{loginResult.status}</p>
                 }
             </div>
         </div>

@@ -4,12 +4,16 @@ import dotenv from "dotenv";
 import cors from "cors";
 import bodyParser from "body-parser";
 import apiRouter from "./api";
+import {connect} from "mongoose";
 // dotenv allows environment variables to be set in a file
 // this means secrets such as API keys can be hidden by excluding the 
 // file from uploads
 dotenv.config();
 const PORT = process.env.PORT || 3001;
 const app = express();
+
+// connect to mongoDB
+connect(process.env.DB_URI ?? "", {dbName: "Lunar-Designs"});
 
 // bypasses CORS restrictions during development
 app.use(cors());

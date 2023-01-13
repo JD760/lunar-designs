@@ -1,28 +1,40 @@
 // import the CSS rules for styling the component
 import { useState } from 'react';
+import { braceletSettings } from '../../utility/types';
 import './style/SettingsComponent.css';
-import ToggleSwitchComponent from "./ToggleSwitchComponent";
-// no props passed as the settings component has no functionality in prototype 1
-interface SettingsComponentProps {}
 
-type threadStyle = {
-    type: string,
-    colour: string
+
+interface SettingsComponentProps {
+    settings: braceletSettings
+    setSettings: Function
 }
 
 function SettingsComponent (props: SettingsComponentProps) {
-    const [threadStyle, setThreadStyle] = useState<threadStyle>({type: "", colour: ""});
     
     return (
         <div className="settings-component">
             <p className="center"><u>Settings</u></p>
-            <div className="thread-style">
-                <p>Thread Colour: </p>
-                <select className="thread-colour-selector">
-                    <option value="black">Black</option>
-                    <option value="white">White</option>
+            <div className="bracelet-size">
+                <label htmlFor="size-setting">Bracelet Size:  </label>
+                <select name="size-setting" onChange={(event) => props.setSettings({size: event.target.value})}>
+                    <option value={24}>Large</option>
+                    {/* using the selected=true attribute means medium is the default setting*/}
+                    <option value={20} selected={true}>Medium</option>
+                    <option value={16}>Small</option>
+                </select>
+            </div>
+            {/* br elements create vertical spacing to make the UI more readable */}
+            <br/>
+            <div className="thread-colour">
+                <label htmlFor="thread-colours">Thread Colour:  </label>
+                <select name="thread-colours">
+                    <option value="black" selected={true}>Black</option>
                     <option value="clear">Clear</option>
                 </select>
+            </div>
+            <br/>
+            <div className="">
+
             </div>
         </div>
     )
